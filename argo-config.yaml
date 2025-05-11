@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata :  
+  name : myapp
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AnuragJaiswal14/argocd-repo1.git
+    targetRevision: HEAD
+    path: stage
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions: 
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+      retry:
+      limit: 3
+      backoff:
+      duration: 5m
+      period: 1m
